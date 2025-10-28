@@ -106,6 +106,7 @@ restartBtn.addEventListener('click', restart);
 
 function restart() {
     clearInterval(game);
+    score = 0;
     snake.length = 0;
     snake[0] = {
         x: 9 * box,
