@@ -16,11 +16,24 @@ const food = {
 };
 
 
-/** Create or recreate the food */
+/** update the food position */
 function updateFood() {
-    food.x = Math.floor(Math.random() * 17 + 1) * box;
-    food.y = Math.floor(Math.random() * 15 + 3) * box;
+    do {
+        food.x = Math.floor(Math.random() * 17 + 1) * box;
+        food.y = Math.floor(Math.random() * 15 + 3) * box;
+    } while (!checkPosition(food));    
 };
+
+/** Check if the snake is covering the updated food.
+ * Return true if the food position is correct */
+function checkPosition(food) {
+    for (let elem of snake) {
+        if (elem.x === food.x && elem.y === food.y) {
+            return false;
+        }
+    }
+    return true;
+}
 
 const snake = [{
     x: 9 * box,
