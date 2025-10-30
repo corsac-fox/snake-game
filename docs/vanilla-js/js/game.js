@@ -38,22 +38,21 @@ function checkPosition(food) {
 const snake = [{
     x: 9 * box,
     y: 10 * box,
+    direction: null,
 }];
 
 document.addEventListener('keydown', setDirection);
 
-let direction;
-
 /** Set the direction of the snake by pressing a key */
 function setDirection(event) {
-    if ((event.keyCode === 37 || event.keyCode === 65) && direction != 'right') {
-        direction = 'left';
-    } else if ((event.keyCode === 38 || event.keyCode === 87) && direction != 'down') {
-        direction = 'up';
-    } else if ((event.keyCode === 39 || event.keyCode === 68) && direction != 'left') {
-        direction = 'right';
-    } else if ((event.keyCode === 40 || event.keyCode === 83) && direction != 'up') {
-        direction = 'down';
+    if ((event.keyCode === 37 || event.keyCode === 65) && snake[0].direction != 'right') {
+        snake[0].direction = 'left';
+    } else if ((event.keyCode === 38 || event.keyCode === 87) && snake[0].direction != 'down') {
+        snake[0].direction = 'up';
+    } else if ((event.keyCode === 39 || event.keyCode === 68) && snake[0].direction != 'left') {
+        snake[0].direction = 'right';
+    } else if ((event.keyCode === 40 || event.keyCode === 83) && snake[0].direction != 'up') {
+        snake[0].direction = 'down';
     }
 }
 
@@ -63,7 +62,7 @@ function checkCollision(head, arr) {
     }
 }
 
-function drawGame() {
+function drawGame() {    
     ctx.drawImage(gamefield, 0, 0);
     ctx.drawImage(foodImg, food.x, food.y);
 
@@ -77,7 +76,30 @@ function drawGame() {
         ctx.fillText(score, box * 2.5, box * 1.6);
     }
         let snakeX = snake[0].x;
-        let snakeY = snake[0].y;
+        let snakeY = snake[0].y;        
+
+        if (snakeX < box || snakeX > box * 17
+            || snakeY < box * 3 || snakeY > box * 17
+        ) clearInterval(game);
+
+        if (snake[0].direction === 'left') {
+            snakeX -= box;
+        };
+        if (snake[0].direction === 'right') {
+            snakeX += box;
+        };
+        if (snake[0].direction === 'up') {
+            snakeY -= box;
+        };
+        if (snake[0].direction === 'down') {
+            snakeY += box;
+        };
+
+        let newHead = {
+            x: snakeX,
+            y: snakeY,
+            direction: snake[0].direction,
+        };
 
         if (snakeX === food.x && snakeY === food.y) {
             score++;
@@ -85,28 +107,6 @@ function drawGame() {
         } else {
             snake.pop();
         }
-
-        if (snakeX < box || snakeX > box * 17
-            || snakeY < box * 3 || snakeY > box * 17
-        ) clearInterval(game);
-
-        if (direction === 'left') {
-            snakeX -= box;
-        };
-        if (direction === 'right') {
-            snakeX += box;
-        };
-        if (direction === 'up') {
-            snakeY -= box;
-        };
-        if (direction === 'down') {
-            snakeY += box;
-        };
-
-        let newHead = {
-            x: snakeX,
-            y: snakeY,
-        };
 
         checkCollision(newHead, snake);
 
@@ -125,7 +125,7 @@ function restart() {
     snake[0] = {
         x: 9 * box,
         y: 10 * box,
+        direction: null,
     };
-    direction = null;
     game = setInterval(drawGame, 100);    
 }
