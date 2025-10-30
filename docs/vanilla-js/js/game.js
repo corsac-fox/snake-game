@@ -44,14 +44,15 @@ document.addEventListener('keydown', setDirection);
 
 let direction;
 
+/** Set the direction of the snake by pressing a key */
 function setDirection(event) {
-    if (event.keyCode === 37 && direction != 'right') {
+    if ((event.keyCode === 37 || event.keyCode === 65) && direction != 'right') {
         direction = 'left';
-    } else if (event.keyCode === 38 && direction != 'down') {
+    } else if ((event.keyCode === 38 || event.keyCode === 87) && direction != 'down') {
         direction = 'up';
-    } else if (event.keyCode === 39 && direction != 'left') {
+    } else if ((event.keyCode === 39 || event.keyCode === 68) && direction != 'left') {
         direction = 'right';
-    } else if (event.keyCode === 40 && direction != 'up') {
+    } else if ((event.keyCode === 40 || event.keyCode === 83) && direction != 'up') {
         direction = 'down';
     }
 }
